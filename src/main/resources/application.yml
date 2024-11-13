@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: harper-template
+  # 默认 test 环境
+  profiles:
+    active: test
