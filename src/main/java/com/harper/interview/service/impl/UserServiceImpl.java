@@ -68,8 +68,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusiException(ErrorCode.PARAM_ERROR, "用户不存在，请注册!");
         }
         // 2.比对传入密码与数据库密码
-        String phoneNo = user.getPhoneNumber();
-        String password = user.getPassword();
+        String phoneNo = user.getPhoneNo();
+        String password = user.getUserPassword();
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + loginPassword).getBytes());
         if (!password.equals(encryptPassword)) {
             throw new BusiException(ErrorCode.PARAM_ERROR, "密码错误，请重试密码!");
@@ -82,14 +82,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         stringRedisTemplate.opsForValue().set(LOGIN_TOKEN_CODE + phoneNo, token, LOGIN_TOKEN_EXPIRE, TimeUnit.MINUTES);
         return LoginOutDTO.builder()
                 .id(user.getId())
-                .userId(user.getUserId())
-                .phoneNumber(user.getPhoneNumber())
+                .phoneNumber(user.getPhoneNo())
                 .password(encryptPassword)
-                .username(user.getUsername())
+                .username(user.getUserName())
                 .userRole(user.getUserRole())
-                .nickname(user.getNickname())
-                .createdTime(user.getCreatedTime())
-                .updatedTime(user.getUpdatedTime())
                 .token(token)
                 .build();
     }
@@ -165,14 +161,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         stringRedisTemplate.opsForValue().set(LOGIN_TOKEN_CODE + phone, token, LOGIN_TOKEN_EXPIRE, TimeUnit.MINUTES);
         return LoginOutDTO.builder()
                 .id(user.getId())
-                .userId(user.getUserId())
-                .phoneNumber(user.getPhoneNumber())
-                .password(user.getPassword())
-                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNo())
+                .password(user.getUserPassword())
+                .username(user.getUserName())
                 .userRole(user.getUserRole())
-                .nickname(user.getNickname())
-                .createdTime(user.getCreatedTime())
-                .updatedTime(user.getUpdatedTime())
                 .token(token)
                 .build();
     }
@@ -215,17 +207,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 保存用户
         User user = new User();
-        user.setUserId(generateUniqueId());
-        user.setUsername(userAccount);
-        user.setPassword(encryptPassword);
-        user.setPhoneNumber(phone);
+        user.setUserName(userAccount);
+        user.setUserPassword(encryptPassword);
+        user.setPhoneNo(phone);
         boolean result = save(user);
         if (!result) {
             throw new BusiException(ErrorCode.SYSTEM_ERROR, "注册失败，请联系管理员");
         }
         String token = UUID.randomUUID().toString(true);
         stringRedisTemplate.opsForValue().set(LOGIN_TOKEN_CODE + phone, token, LOGIN_TOKEN_EXPIRE, TimeUnit.MINUTES);
-        return user.getUserId();
+        return user.getId().toString();
     }
 
     @Override

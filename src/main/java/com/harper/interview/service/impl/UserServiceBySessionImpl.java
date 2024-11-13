@@ -52,15 +52,15 @@ public class UserServiceBySessionImpl extends ServiceImpl<UserMapper, User> impl
         }
         // 1.获取账号比对数据库获取用户信息
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("userName", loginInDTO.getAccount());
+        queryWrapper.eq("userAccount", loginInDTO.getAccount());
         User user = this.baseMapper.selectOne(queryWrapper);
         if (user == null) {
             // 返回
             throw new BusiException(ErrorCode.PARAM_ERROR, "用户不存在，请注册!");
         }
         // 2.比对传入密码与数据库密码
-        String phoneNo = user.getPhoneNumber();
-        String password = user.getPassword();
+        String phoneNo = user.getPhoneNo();
+        String password = user.getUserPassword();
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + loginPassword).getBytes());
         if (!password.equals(encryptPassword)) {
             throw new BusiException(ErrorCode.PARAM_ERROR, "密码错误，请重试密码!");
@@ -69,13 +69,9 @@ public class UserServiceBySessionImpl extends ServiceImpl<UserMapper, User> impl
         request.getSession().setAttribute(LOGIN_STATE_01, user);
         return LoginOutDTO.builder()
                 .id(user.getId())
-                .userId(user.getUserId())
-                .phoneNumber(user.getPhoneNumber())
-                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNo())
+                .username(user.getUserName())
                 .userRole(user.getUserRole())
-                .nickname(user.getNickname())
-                .createdTime(user.getCreatedTime())
-                .updatedTime(user.getUpdatedTime())
                 .build();
     }
 
@@ -147,13 +143,9 @@ public class UserServiceBySessionImpl extends ServiceImpl<UserMapper, User> impl
         request.getSession().setAttribute(LOGIN_STATE_01, user);
         return LoginOutDTO.builder()
                 .id(user.getId())
-                .userId(user.getUserId())
-                .phoneNumber(user.getPhoneNumber())
-                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNo())
+                .username(user.getUserName())
                 .userRole(user.getUserRole())
-                .nickname(user.getNickname())
-                .createdTime(user.getCreatedTime())
-                .updatedTime(user.getUpdatedTime())
                 .build();
     }
 
@@ -188,23 +180,22 @@ public class UserServiceBySessionImpl extends ServiceImpl<UserMapper, User> impl
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
         // 查询是否已有用户
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", userAccount);
+        queryWrapper.eq("userName", userAccount);
         long count = baseMapper.selectCount(queryWrapper);
         if (count > 0) {
             throw new BusiException(ErrorCode.PARAM_ERROR, "您以创建过该用户，请直接登录");
         }
         // 保存用户
         User user = new User();
-        user.setUserId(generateUniqueId());
-        user.setUsername(userAccount);
-        user.setPassword(encryptPassword);
-        user.setPhoneNumber(phone);
+        user.setUserAccount(userAccount);
+        user.setUserPassword(encryptPassword);
+        user.setPhoneNo(phone);
         boolean result = save(user);
         if (!result) {
             throw new BusiException(ErrorCode.SYSTEM_ERROR, "注册失败，请联系管理员");
         }
         request.getSession().setAttribute(LOGIN_STATE_00, user);
-        return user.getUserId();
+        return user.getId().toString();
     }
 
     @Override

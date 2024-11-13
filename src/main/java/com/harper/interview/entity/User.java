@@ -1,6 +1,7 @@
 package com.harper.interview.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @BelongsProject: template
@@ -21,73 +23,99 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("hp_user")
+@TableName(value = "harper_user")
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    public Long id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
-     * 用户ID，不能为空
+     * 账号
      */
-    public String userId;
+    @TableField(value = "userAccount")
+    private String userAccount;
 
     /**
-     * 手机号，不能为空
+     * 密码
      */
-    public String phoneNumber;
+    @TableField(value = "userPassword")
+    private String userPassword;
 
     /**
-     * 密码，不能为空
+     * 微信开放平台id
      */
-    public String password;
+    @TableField(value = "unionId")
+    private String unionId;
 
     /**
-     * 用户名，不能为空
+     * 公众号openId
      */
-    public String username;
+    @TableField(value = "mpOpenId")
+    private String mpOpenId;
 
     /**
-     * 昵称，默认空字符串
+     * 用户昵称
      */
-    public String nickname;
+    @TableField(value = "userName")
+    private String userName;
 
     /**
-     * 用户简介，默认空字符串
+     * 用户头像
      */
-    public String userBio;
+    @TableField(value = "userAvatar")
+    private String userAvatar;
 
     /**
-     * 用户角色
+     * 用户简介
      */
-    public String userRole;
+    @TableField(value = "userProfile")
+    private String userProfile;
+
+    /**
+     * 用户角色：user/admin/ban
+     */
+    @TableField(value = "userRole")
+    private String userRole;
+
+    /**
+     * 编辑时间
+     */
+    @TableField(value = "editTime")
+    private Date editTime;
 
     /**
      * 创建时间
      */
-    public LocalDateTime createdTime;
+    @TableField(value = "createTime")
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    public LocalDateTime updatedTime;
+    @TableField(value = "updateTime")
+    private Date updateTime;
 
     /**
-     * 用户头像，默认空字符串
+     * 是否删除
      */
-    public String userAvatar;
+    @TableField(value = "isDelete")
+    private Byte isDelete;
 
     /**
-     * 微信ID，默认空字符串
+     * 手机号
      */
-    public String wechatId;
+    @TableField(value = "phoneNo")
+    private String phoneNo;
 
     /**
-     * 微信昵称，默认空字符串
+     * 微信扫码登录id
      */
-    public String wechatNickname;
+    @TableField(value = "wxId")
+    private String wxId;
+
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

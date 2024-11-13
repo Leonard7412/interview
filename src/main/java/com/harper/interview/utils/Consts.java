@@ -16,10 +16,10 @@ public class Consts {
     public static final String FALSE = "false";
 
     // 未登录
-    public static final String LOGIN_STATE_00 = "00";
+    public static final String LOGIN_STATE_00 = "LOGIN_STATE_00";
 
     // 登录成功
-    public static final String LOGIN_STATE_01 = "01";
+    public static final String LOGIN_STATE_01 = "LOGIN_STATE_01";
 
     // 登录失败
     public static final String LOGIN_STATE_02 = "02";

@@ -18,14 +18,14 @@ import java.util.UUID;
  * 请求响应日志 AOP
  *
  **/
-@Aspect
+/*@Aspect
 @Component
-@Slf4j
-public class LogInterceptor {
+@Slf4j*/
+public class LogInterceptor {/*
 
-    /**
+    *//**
      * 执行拦截
-     */
+     *//*
     @Around("execution(* com.harper.interview.controller.*.*(..))")
     public Object doInterceptor(ProceedingJoinPoint point) throws Throwable {
         // 计时
@@ -51,5 +51,5 @@ public class LogInterceptor {
         log.info("request end, id: {}, cost: {}ms", requestId, totalTimeMillis);
         return result;
     }
-}
+*/}
 

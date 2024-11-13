@@ -29,7 +29,7 @@ import static com.harper.interview.utils.Consts.TRUE;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Value("${spring.redis.enable}")
+    @Value("${switch.now}")
     private String redisSwitch;
 
     @Resource
