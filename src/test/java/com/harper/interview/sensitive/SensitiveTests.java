@@ -24,10 +24,6 @@ public class SensitiveTests {
                 .addressPattern("北京市东城区东华门街道北京香江戴斯酒店")
                 .addressLength("北京市东城区东华门街道北京香江戴斯酒店")
                 .emailPattern("23345@qq.com")
-                .emailLength("23345@qq.com")
-                .bankCardPattern("6212262502009182455")
-                .bankCardCustomizePattern("6212262502009182455")
-                .bankCardLength("6212262502009182455")
                 .build();
         log.info(JsonMapper.nonNullMapper().toJson(userEntity));
     }
