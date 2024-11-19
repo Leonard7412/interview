@@ -31,7 +31,6 @@ public class SensitiveWordFilterTest {
                 + "然后法轮功 我们的扮演的角色就是跟随着主人公的喜红客联盟 怒哀乐而过于牵强的把自己的情感也附加于银幕情节中，然后感动就流泪，"
                 + "难过就躺在某一个人的怀里尽情的阐述心扉或者手机卡复制器一个人一杯红酒一部电影在夜三级片 深人静的晚上，关上电话静静的发呆着。";
         log.info("待检测语句字数：" + string.length());
-        log.info("待检测语句字数：" + string);
 
         Set<String> set = filter.getSensitiveWord(string, 1);
         long endTime = System.currentTimeMillis();
