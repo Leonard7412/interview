@@ -34,6 +34,7 @@ public class SensitiveWordFilterTest {
 
         Set<String> set = filter.getSensitiveWord(string, 1);
         long endTime = System.currentTimeMillis();
+        log.info("语句中包含敏感词的结果：" + set);
         log.info("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
         log.info("总共消耗时间为：" + (endTime - beginTime));
     }
