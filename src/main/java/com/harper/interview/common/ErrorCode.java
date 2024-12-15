@@ -47,7 +47,9 @@ public enum ErrorCode {
     /**
      * 无权限，对应的错误码为10004，错误信息为"无权限"。
      */
-    NO_AUTH_ERROR(10006, "无权限");
+    NO_AUTH_ERROR(10006, "无权限"),
+
+    FILE_ERROR(10007, "文件格式错误");
 
     protected final int code;
 
